@@ -16,12 +16,6 @@ technical
 - Added PLAN.md with v1 rules, data model, daily seed strategy, pitfalls, and phased implementation.
 - Confirmed: tile identity unique by teamAbbr+jerseyNumber, rollover at 7:00 AM PT, v1 conditions limited to SUM/HAS_TEAM/HAS_EQUAL_NUMBERS.
 
-## TODO
-- Scaffold Vite + TypeScript project.
-- Implement puzzle logic (drag+drop and tap-to-place).
-- Implement region condition checking and incorrect-region highlight.
-- Add PT 7:00 AM daily puzzle resolver.
-- Run Playwright validation and fix visual/interaction issues.
 - Scaffolded Vite + TypeScript project files (`package.json`, `tsconfig*`, `vite.config.ts`, `index.html`).
 - Implemented core game in `src/main.ts`:
   - PT daily key with 7:00 AM rollover.
@@ -63,3 +57,54 @@ technical
   - Swap behavior: `output/web-game-v2-swap/`
   - Reveal solved state: `output/web-game-v2-reveal/` and `output/web-game-v2-reveal-final/`
   - Verified from state snapshots that swap updates placements and solved state sets all conditions to pass.
+- Marker/region UX simplification update:
+  - Reduced puzzle to 4 primary conditions/regions (2 sums + 2 team rules).
+  - Removed the right-side condition legend list; rules now appear directly on board markers.
+  - Marker chips now show explicit hints (`Σ81`, `Σ122`, `2xGSW`, `MIA+`) and can be clicked/hovered.
+  - Added same-color region highlight: focused marker paints affected cells with matching background tone.
+- Build validation: `npm run build` passes after marker simplification.
+- Playwright validations for new marker UX:
+  - Idle: `output/web-game-v3-markers-idle/`
+  - Marker focus color match: `output/web-game-v3-markers-focus/`
+  - Reveal solved state with 4 conditions passing: `output/web-game-v3-markers-reveal/`
+- Region consistency update per feedback:
+  - Reworked puzzle to use 4 non-overlapping regions only.
+  - Removed sigma prefix on sum markers (plain numeric hints only).
+  - Region cells now use the same base background family as their marker tone.
+  - Added hard guard `assertNoOverlappingRegions` to reject overlapping region definitions.
+- Build validation: `npm run build` passes after non-overlap + color match update.
+- Playwright validations for non-overlap/color update:
+  - Idle: `output/web-game-v4-nonoverlap-idle/`
+  - Focus: `output/web-game-v4-nonoverlap-focus/`
+  - Reveal solved: `output/web-game-v4-nonoverlap-reveal/`
+- Team-color marker update:
+  - For `HAS_TEAM`/`COUNT_TEAM` rules, marker/background colors now derive from the team palette in tray data (team primary as marker bg).
+  - Team-based region cells and focus state now use the same team-driven color mapping.
+- Build validation: `npm run build` passes after team-color marker logic.
+- Playwright validations for team-color markers:
+  - Idle: `output/web-game-v5-team-marker-colors/`
+  - Reveal solved: `output/web-game-v5-team-marker-colors-reveal/`
+- Marker compactness/placement update:
+  - Reduced marker chip size (height/font/padding) for a denser Pips-like look.
+  - Reworked marker anchoring so each marker sits on the bottom-right corner of its region’s bottom-right tile.
+- Build validation: `npm run build` passes after compact marker placement update.
+- Playwright validation:
+  - Idle render with compact anchored markers: `output/web-game-v6-compact-marker-idle/`
+- Marker overlap placement update:
+  - Markers now sit half outside the bottom-right anchor corner (Pips-style overlap at tile boundary).
+  - Increased marker overlay layer (`.markers` z-index) to keep chips visually in front of tiles.
+- Build validation: `npm run build` passes after marker half-outside adjustment.
+- Playwright validation:
+  - Idle render with half-outside markers: `output/web-game-v7-marker-half-outside/`
+- Daily seed update:
+  - Added alternate seed `p-jerseys-003` with new SUM/team conditions and solution layout.
+  - Switched `2026-02-26` daily mapping to the new seed for immediate playtesting.
+- Build validation: `npm run build` passes after adding the new daily seed.
+- Board sizing update:
+  - Increased board cell size from `76` to `92` and gap from `6` to `8` for a larger play area.
+  - Updated both TS layout constants and CSS root variables to keep geometry aligned.
+- Build validation: `npm run build` passes after board size increase.
+- Jersey label update:
+  - Removed team abbreviation text from jersey tiles; jerseys now show only numbers.
+  - Deleted unused `.tile-team` style rules.
+- Build validation: `npm run build` passes after jersey label cleanup.

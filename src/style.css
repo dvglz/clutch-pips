@@ -4,8 +4,8 @@
   --muted: #a7b3cc;
   --ok: #75f6b1;
   --fail: #ff6971;
-  --cell: 76px;
-  --gap: 6px;
+  --cell: 92px;
+  --gap: 8px;
   color: var(--text);
   font-family: "Avenir Next Condensed", "Trebuchet MS", sans-serif;
 }
@@ -108,7 +108,7 @@ body {
 }
 
 .markers {
-  z-index: 6;
+  z-index: 10;
   pointer-events: none;
 }
 
@@ -121,7 +121,11 @@ body {
   display: grid;
   place-items: center;
   cursor: pointer;
-  transition: transform 110ms ease;
+  transition:
+    transform 110ms ease,
+    background-color 140ms ease,
+    border-color 140ms ease,
+    box-shadow 140ms ease;
 }
 
 .cell:active {
@@ -153,6 +157,11 @@ body {
   border-color: #a074d8;
 }
 
+.cell-region-tone {
+  background: var(--region-cell-bg, #3a536f);
+  border-color: var(--region-cell-border, #8dbaff);
+}
+
 .cell-invalid {
   border-color: var(--fail);
   box-shadow: 0 0 0 2px rgba(255, 105, 113, 0.25);
@@ -160,6 +169,12 @@ body {
 
 .cell-cursor {
   box-shadow: 0 0 0 2px rgba(141, 186, 255, 0.46);
+}
+
+.cell-region-focus {
+  background: var(--region-focus-bg, rgba(255, 255, 255, 0.24));
+  border-color: var(--region-focus-border, rgba(255, 255, 255, 0.72));
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.35);
 }
 
 .slot-dot {
@@ -171,46 +186,26 @@ body {
 
 .region-marker {
   position: absolute;
-  width: 58px;
-  height: 58px;
-  transform: translate(-50%, -50%) rotate(45deg);
-  border-radius: 14px;
+  min-width: 44px;
+  height: 24px;
+  padding: 0 7px;
+  transform: translate(-50%, -50%);
+  border-radius: 8px;
   border: 1px solid rgba(255, 255, 255, 0.14);
   display: grid;
   place-items: center;
+  background: var(--marker-bg, #2e5fb5);
+  color: var(--marker-text, #ffffff);
   font-weight: 800;
   letter-spacing: 0.02em;
-  backdrop-filter: blur(1px);
+  pointer-events: auto;
+  cursor: pointer;
 }
 
 .region-marker span {
-  transform: rotate(-45deg);
-  font-size: 0.84rem;
-}
-
-.marker-blue {
-  background: #1d63d5;
-  color: #ffeb5d;
-}
-
-.marker-purple {
-  background: #6840ab;
-  color: #f6f3ff;
-}
-
-.marker-gold {
-  background: #e8a61e;
-  color: #fffef7;
-}
-
-.marker-slate {
-  background: #3b4558;
-  color: #f4f7ff;
-}
-
-.marker-green {
-  background: #10795a;
-  color: #eafff3;
+  font-size: 0.64rem;
+  font-weight: 900;
+  white-space: nowrap;
 }
 
 .region-marker-pass {
@@ -219,6 +214,10 @@ body {
 
 .region-marker-fail {
   box-shadow: 0 0 0 2px rgba(255, 105, 113, 0.45);
+}
+
+.region-marker-focus {
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.42), 0 8px 20px rgba(0, 0, 0, 0.32);
 }
 
 .tray-wrap {
@@ -284,12 +283,6 @@ body {
   text-shadow: 0 1px 1px rgba(0, 0, 0, 0.35);
 }
 
-.tile-team {
-  color: #d4dcf2;
-  font-size: 0.62rem;
-  letter-spacing: 0.05em;
-}
-
 .cell .tile {
   min-height: 0;
 }
@@ -301,10 +294,6 @@ body {
 
 .cell .tile-number {
   font-size: 1.23rem;
-}
-
-.cell .tile-team {
-  font-size: 0.57rem;
 }
 
 .tile-ghost {
@@ -330,52 +319,8 @@ body {
   letter-spacing: 0.03em;
 }
 
-.conditions {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  display: grid;
-  gap: 6px;
-}
-
-.condition {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  border: 1px solid #2d3b55;
-  border-radius: 10px;
-  padding: 8px 9px;
-  background: rgba(16, 24, 38, 0.92);
-  font-size: 0.82rem;
-}
-
-.condition-left {
-  color: #d6deef;
-}
-
-.condition-right {
-  min-width: 28px;
-  text-align: center;
-  color: #9caccc;
-  font-weight: 700;
-}
-
-.condition-pass .condition-right {
-  color: var(--ok);
-}
-
-.condition-fail {
-  border-color: rgba(255, 105, 113, 0.55);
-  background: rgba(63, 25, 33, 0.91);
-}
-
-.condition-fail .condition-right {
-  color: var(--fail);
-}
-
 .status {
-  margin-top: 8px;
+  margin-top: 4px;
   color: var(--muted);
   font-size: 0.84rem;
 }
